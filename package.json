@@ -6,7 +6,9 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "webpack-dev-server --hot --inline",
-    "build": "webpack"
+    "build": "rimraf ./build/* & webpack",
+    "flow": "flow",
+    "rimraf": "rimraf"    
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,9 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.5.0",
+    "flow-bin": "^0.35.0",
+    "html-webpack-plugin": "^2.24.1",
+    "rimraf": "^2.5.4",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
   },

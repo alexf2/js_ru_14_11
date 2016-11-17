@@ -1,3 +1,5 @@
+// @flow
+
 export const normalizedComments = [
     {
         "id": 0,
