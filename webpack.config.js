@@ -12,7 +12,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'build'),
         filename: '[name].[hash].js',
-        publicPath: '.'
+        publicPath: '/'
     },
     module: {
         loaders: [
@@ -45,7 +45,8 @@ module.exports = {
 
     devServer: {
         contentBase: './build',
-        port: 8080
+        port: 8080,
+        hot: true
     },
 
 }

@@ -1,6 +1,8 @@
 // @flow
 
-export const normalizedComments = [
+import type {CommentItem, NormArticleItem, ArticleItem} from './dataTypes' 
+
+export const normalizedComments: Array<CommentItem> = [
     {
         "id": 0,
         "user": "Gilliam Underwood",
@@ -54,7 +56,8 @@ export const normalizedComments = [
 
 ]
 
-export const normalizedArticles = [
+
+export const normalizedArticles: Array<NormArticleItem> = [
     {
         "id": "56c782f18990ecf954f6e027",
         "date": "2016-06-09T15:03:23.000Z",
@@ -99,7 +102,9 @@ export const normalizedArticles = [
     }
 ]
 
-export const articles = [
+
+
+export const articles: Array<ArticleItem> = [
     {
         "id": "56c782f18990ecf954f6e027",
         "date": "2016-06-09T15:03:23.000Z",
