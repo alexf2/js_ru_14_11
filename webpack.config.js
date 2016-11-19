@@ -4,19 +4,22 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
-module.exports = {
-    devtool: 'source-map',
-    debug: true,
-    postcss: () => [autoprefixer],
-    entry: {
-        main: ['./src/app.js']
-    },
+module.exports = {    
     target: 'web',
+    
+    entry: {
+        main: ['./src/app.jsx']
+    },        
     output: {
         path: path.join(__dirname, 'build'),
         filename: '[name].[hash].js',
         publicPath: '/'
     },
+
+    devtool: 'source-map',
+    debug: true,
+    postcss: () => [autoprefixer],
+
     module: {
         loaders: [
             {
@@ -28,15 +31,15 @@ module.exports = {
             {
                 test: /\.(css|less)$/,
                  loaders: [
-                'style',
-                'css',
-                'less',
-                'postcss'
+                    'style',
+                    'css',
+                    'less',
+                    'postcss'
                 ]
-                /*loaders: ExtractTextPlugin.extract({
+                /*loader: ExtractTextPlugin.extract({
                     fallbackLoader: 'style',
                     loader: 'css?less!postcss'
-                })*/
+                })*/                
             }
         ]
     },
@@ -44,7 +47,7 @@ module.exports = {
     plugins: [
         new webpack.NoErrorsPlugin(),        
         new HtmlWebpackPlugin({
-            template: './index.html'
+            template: './src/index.html'
         })
 
         //new ExtractTextPlugin({filename: 'css/[name].css', allChunks: true})        
@@ -52,13 +55,19 @@ module.exports = {
 
     resolve: {
         modulesDirectories: ['node_modules'],
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx', '.less']        
     },
 
     resolveLoader: {
         modulesDirectories: ['node_modules'],
         moduleTemplates: ['*-loader', '*'],
         extensions: ['', '.js']
+    },
+
+     externals: {
+        // Use external version of React
+        "react": "React",
+        "react-dom": "ReactDOM"
     },
 
 

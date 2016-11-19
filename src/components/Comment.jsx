@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react'
 import type {CommentItem, NormArticleItem, ArticleItem} from '../dataTypes'
-import  './main.less'
+import '../main.less'
 
 type Props = {
     comment: CommentItem;
