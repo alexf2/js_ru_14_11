@@ -2,8 +2,20 @@
 
 import React, { Component } from 'react'
 import CommentLink from './CommentLink'
+import type {ArticleItem} from '../dataTypes'
+
+type State = {
+    isOpen: boolean;
+    obj: {foo: string}
+}
+
+type Props = {
+    article: ArticleItem   
+}
 
 class Article extends Component {
+    state: State
+    props: Props
 
     constructor() {
         super()
@@ -24,7 +36,7 @@ class Article extends Component {
         )
     }
 
-    handleClick = ev => {
+    handleClick = (ev: SyntheticEvent) => {
         this.setState({
             isOpen: !this.state.isOpen
         })

@@ -1,10 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
     devtool: 'source-map',
     debug: true,
+    postcss: () => [autoprefixer],
     entry: {
         main: ['./src/app.js']
     },
@@ -20,20 +23,35 @@ module.exports = {
                 test: /\.js/,
                 loaders: ['babel'],
                 include: path.join(__dirname, 'src')
+            },
+            {
+                test: /\.(css|less)$/,
+                 loaders: [
+                'style',
+                'css',
+                'less',
+                'postcss'
+                ]
+                /*loaders: ExtractTextPlugin.extract({
+                    fallbackLoader: 'style',
+                    loader: 'css?less!postcss'
+                })*/
             }
         ]
     },
 
     plugins: [
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoErrorsPlugin(),        
         new HtmlWebpackPlugin({
             template: './index.html'
         })
+
+        //new ExtractTextPlugin({filename: 'css/[name].css', allChunks: true})        
     ],
 
     resolve: {
         modulesDirectories: ['node_modules'],
-        extensions: ['', '.js']
+        extensions: ['', '.js', '.jsx']
     },
 
     resolveLoader: {

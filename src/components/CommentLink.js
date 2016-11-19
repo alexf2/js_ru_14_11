@@ -1,36 +1,51 @@
 // @flow
 
-import React, {Component} from 'react'
-import type {CommentItem, NormArticleItem, ArticleItem} from '../dataTypes'
+import React, { Component } from 'react'
+import type {CommentItem, NormArticleItem, ArticleItem } from '../dataTypes'
+import Comments from './Comments'
 
-type LinkState = {
+type State = {
     isOpen: bool
 }
-type LinkProps = {
-    comments: Array<CommentItem>
+type Props = {
+    comments?: Array<CommentItem>
 }
 
 class CommentLink extends Component {
     count: number
-    state: LinkState
+    state: State
+    props: Props
 
-    constructor(props:LinkProps) {
+    constructor(props: Props) {
         super(props)
 
-        this.count = (props.comments || []).length
-        this.state = {isOpen: false}                
-    } 
-
-    render() {        
-        if (!this.count)
-            return null
-
-        let [text, sign] = this.state.isOpen ? ['Close comments', '-']:['Show comments', '+']
-
-        return (
-            <a href='#'>{text}({this.count}&nbsp;{sign})</a>
-        ); 
+        this.state = { isOpen: false }
+        this.updateCount(props);
     }
+
+    componentWillReceiveProps(nextProps: Props) {
+        this.updateCount(nextProps);
+    }
+
+    updateCount(props: Props) {
+        this.count = (props.comments || []).length
+    }
+
+     clickHandler = (ev: SyntheticEvent) => { 
+        this.setState( (privState:State, props:Props) => Object.assign({}, privState, {isOpen: !privState.isOpen}) )        
+    }
+
+    render() { 
+        if (!this.count)
+            return null            
+
+        let [text, sign] = this.state.isOpen ? ['Hide comments', '-'] : ['Show comments', '+']
+
+        return (<div>
+                <a key='0' href='#' onClick={this.clickHandler}>{text}&nbsp;({this.count}&nbsp;{sign})</a>
+                {this.state.isOpen && <Comments key='1' comments={this.props.comments} />}
+            </div>)
+    } 
 
 }
 
