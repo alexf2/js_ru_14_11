@@ -32,7 +32,8 @@ class CommentLink extends Component {
     }
 
      clickHandler = (ev: SyntheticEvent) => { 
-        this.setState( (privState:State, props:Props) => Object.assign({}, privState, {isOpen: !privState.isOpen}) )        
+        //this.setState( (privState:State, props:Props) => Object.assign({}, privState, {isOpen: !privState.isOpen}) )        
+        this.setState( (privState:State, props:Props) => ({...privState, isOpen: !privState.isOpen}) )
     }
 
     render() { 

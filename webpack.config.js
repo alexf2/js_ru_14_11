@@ -20,9 +20,10 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js/,
-                loaders: ['babel'],
-                include: path.join(__dirname, 'src')
+                test: /\.(js|jsx)$/,
+                loader: 'babel',
+                include: path.join(__dirname, 'src'),
+                exclude: /node_modules/
             },
             {
                 test: /\.(css|less)$/,
