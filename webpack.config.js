@@ -9,6 +9,7 @@ module.exports = {
     
     entry: {
         main: ['./src/app.jsx']
+        //css: ['./src/main.less']
     },        
     output: {
         path: path.join(__dirname, 'build'),
@@ -30,16 +31,16 @@ module.exports = {
             },
             {
                 test: /\.(css|less)$/,
-                 loaders: [
+                 /*loaders: [
                     'style',
                     'css',
                     'less',
                     'postcss'
-                ]
-                /*loader: ExtractTextPlugin.extract({
+                ]*/
+                loader: ExtractTextPlugin.extract({
                     fallbackLoader: 'style',
-                    loader: 'css?less!postcss'
-                })*/                
+                    loader: 'css?sourceMap!less?resolve url!postcss'
+                })                
             }
         ]
     },
@@ -48,12 +49,13 @@ module.exports = {
         new webpack.NoErrorsPlugin(),        
         new HtmlWebpackPlugin({
             template: './src/index.html'
-        })
+        }),
 
-        //new ExtractTextPlugin({filename: 'css/[name].css', allChunks: true})        
+        new ExtractTextPlugin({filename: 'css/[name].css', allChunks: true})        
     ],
 
     resolve: {
+        //root: path.resolve('./src'),
         modulesDirectories: ['node_modules'],
         extensions: ['', '.js', '.jsx', '.less']        
     },
