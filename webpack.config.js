@@ -8,7 +8,7 @@ module.exports = {
     target: 'web',
     
     entry: {
-        main: ['./src/app.jsx']
+        main: ['./src/app.js']
         //css: ['./src/main.less']
     },        
     output: {
