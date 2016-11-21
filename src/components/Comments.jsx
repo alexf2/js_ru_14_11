@@ -14,7 +14,7 @@ const Comments = (props:Props) => {
 
     if (!comments || comments.length === 0)
         return (<div>&nbsp;</div>)
-
+    //не понял зачем тебе isFirst, а так все отлично
     return (
         <ul>
             {comments.map( (comment, i) => <Comment key={comment.id} comment={comment} isFirst={i === 0} /> )}
