@@ -1,0 +1,7 @@
+.comment {
+  padding-top: 0.5em;
+}
+h3 {
+  cursor: pointer;
+  user-select: none;
+}

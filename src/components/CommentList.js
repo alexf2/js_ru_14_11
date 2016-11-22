@@ -1,29 +1,53 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import Comment from './Comment'
 import toggleOpen from '../decorators/toggleOpen'
 
-class CommentList extends Component {
-    render() {
-        return (
-            <div>
-                {this.getButton()}
-                {this.getList()}
-            </div>
+const commentList = (props) => {
+    
+    const getButton = () => {
+        const { comments, isOpen, toggleOpenCallback } = props
+        
+        return ( 
+            (!comments || !comments.length) ? 
+                <span>No comments yet</span>:
+                <a href="#" onClick = {toggleOpenCallback}>{isOpen ? 'hide' : 'show'} comments</a>
         )
     }
 
-    getButton() {
-        const { comments, isOpen, toggleOpen } = this.props
-        if ( !comments || !comments.length) return <span>No comments yet</span>
-        return <a href="#" onClick = {toggleOpen}>{isOpen ? 'hide' : 'show'} comments</a>
+    const getList = () => {
+        const { comments, isOpen } = props
+
+        if (!isOpen || !comments || !comments.length) 
+            return null
+
+        const commentItems = comments.map(comment => <li key = {comment.id}><Comment comment = {comment} /></li>)
+        return (
+            <ul>{commentItems}</ul>
+        )
     }
 
-    getList() {
-        const { comments, isOpen } = this.props
-        if (!isOpen || !comments || !comments.length) return null
-        const commentItems = comments.map(comment => <li key = {comment.id}><Comment comment = {comment} /></li>)
-        return <ul>{commentItems}</ul>
-    }
+    
+    return (
+        <div>
+            {getButton()}
+            {getList()}
+        </div>
+    )
 }
 
-export default toggleOpen(CommentList)
+commentList.propTypes = {
+    comments: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.number.isRequired,
+
+                title: PropTypes.string,
+                user: PropTypes.string.isRequired,
+                text: PropTypes.isRequired
+            })
+        ),
+
+    isOpen: PropTypes.bool.isRequired,
+    toggleOpenCallback: PropTypes.func.isRequired    
+}
+
+export default toggleOpen(commentList)
