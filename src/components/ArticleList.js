@@ -46,10 +46,12 @@ class ArticleList extends Component {
             </li>
         ))
 
-        return (
-            <ul ref = {this.getContainerRef}>
+        return ( 
+            <div>          
+            <ul ref = {this.getContainerRef} className='articles'>
                 {articleItems}
             </ul>
+            </div>            
         )
     }
 }

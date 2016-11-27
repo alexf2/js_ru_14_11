@@ -3,6 +3,8 @@ import ArticleList from './ArticleList'
 import Select from 'react-select'
 import Chart from './Chart'
 import 'react-select/dist/react-select.css'
+import DateFilter from './DateFilter'
+import '../../main.less'
 
 class App extends Component {
     static propTypes = {
@@ -21,6 +23,7 @@ class App extends Component {
         return (
             <div>
                 <Chart />
+                <DateFilter />                
                 <ArticleList articles={this.props.articles} />
                 <Select options = {options} value = {this.state.selected} onChange = {this.handleChange} multi = {true}/>
             </div>

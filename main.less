@@ -4,3 +4,80 @@ h3 {
   cursor: pointer;
   user-select: none; 
 }
+
+.datePickerContainer {
+  float: left;
+
+  padding: 2px;
+  border: 1px solid lightgrey;  
+  text-align: center;
+}
+
+
+.clear:after {
+    content: '';
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;    
+}
+
+.articles {
+  display: inline-block;
+  clear: both;  
+}
+
+.dateInterval {
+  font-weight: bold;
+  color: #44cc66
+}
+
+.commentFormContainer { 
+  padding-bottom: 1em;
+  float: left;     
+}
+.formControl {  
+  line-height: 1.5;
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  border-radius: 4px;
+
+  textarea& {
+    height: auto; overflow: auto;    
+  }
+
+  button&, input&, optgroup&, select&, textarea& {
+    margin: 0;
+  }
+}
+.formGroup {
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      font-size: 1.1em;
+      line-height: 1.5;
+}
+.btn {
+    background-color: #2A2F3E;
+    color: #AFB6D1;
+    outline: 0;
+
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 4px;
+
+    &:hover {
+      border-color: #adadad;
+      background-color: #4A4F5E;
+      transition: all .2s ease-out;
+    }
+}
+
