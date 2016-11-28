@@ -6,7 +6,7 @@ class DateFilter extends Component {
 
     constructor(props) {
         super(props)
-
+        //тогда хотя бы назови их defaultDateFrom 
         DateFilter.validateDate(props.dtFrom, '"dtFrom" if specified should be a valid Date')
         DateFilter.validateDate(props.dtTo, 'dtTo if specified should be a valid Date')
 
