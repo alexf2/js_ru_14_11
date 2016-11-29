@@ -23,8 +23,8 @@ class Article extends Component {
     render() {
         const { article, toggleOpen } = this.props
         return (
-            <section>
-                <h3 onClick = {toggleOpen}>{article.title}</h3>
+            <section>                
+                <h3 onClick = {toggleOpen}>{article.title} (<span>{new Date(article.date).toLocaleDateString()}</span>)</h3>
                 <a href = "#" onClick = {this.handleDeleteArticle}>delete me</a>
                 {this.getBody()}
             </section>

@@ -2,6 +2,7 @@ import React, { Component, PropTypes }  from 'react'
 import Article from './Article'
 import accordion from '../decorators/accordion'
 import { connect } from 'react-redux'
+import { DateUtils } from 'react-day-picker'
 
 class ArticleList extends Component {
     static propTypes = {
@@ -33,11 +34,36 @@ class ArticleList extends Component {
         this.containerRef = ref
     }
 
+    filterArt = articles => {
+        if (!articles)
+            return articles;
+
+        const {from, to, titles} = this.props
+
+        return articles.filter( (art) => {
+            if (titles && titles.length > 0 && !titles.find((item) => item.value === art.id)) 
+                return false                        
+
+            const dt = Date.parse(art.date)             
+
+            if (from && !to) 
+                return dt >= from
+            
+            else if (to && !from) 
+                return dt <= to
+            
+            else if (from) 
+                return dt >= from && dt <= to
+                        
+            return true
+        })
+    }
+
 
     render() {
-        const { articles, isOpen, toggleOpenItem } = this.props
+        const { articles, isOpen, toggleOpenItem } = this.props        
 
-        const articleItems = articles.map(article => (
+        const articleItems = this.filterArt(articles).map(article => (
             <li key = {article.id}>
                 <Article
                     article = {article}

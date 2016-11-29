@@ -5,30 +5,39 @@ import Chart from './Chart'
 import DateRange from './DateRange'
 import Counter from './Counter'
 import 'react-select/dist/react-select.css'
+import { connect } from 'react-redux'
+import {applyArtDateFilter, applyArtTitleFilter} from '../AC/filters'
+
+
+
 
 class App extends Component {
-
-    state = {
-        selected: null
-    }
-
+    
     render() {
-        const options = [].map(article => ({
+        const options = this.props.articles.map(article => ({
             label: article.title,
             value: article.id
-        }))
+        }))        
+
         return (
             <div>
                 <Counter />
                 <Chart />
-                <DateRange />
-                <ArticleList />
-                <Select options = {options} value = {this.state.selected} onChange = {this.handleChange} multi = {true}/>
+                <DateRange onRangeChanged={this.handleRangeChanged} />
+                <ArticleList  from={this.props.from} to={this.props.to} titles={this.props.titles} />
+                <Select options = {options} value = {this.props.titles} onChange = {this.handleChange} multi = {true} />
             </div>
         )
     }
 
-    handleChange = selected => this.setState({ selected })
+    handleChange = selected => {        
+        this.props.applyArtTitleFilter(selected)
+    }
+    handleRangeChanged = (from, to) => {        
+        this.props.applyArtDateFilter(from, to)
+    }
 }
 
-export default App
+export default connect(
+    state => ({articles: state.articles, titles: state.titles, from: state.from, to: state.to}), 
+    {applyArtDateFilter, applyArtTitleFilter})(App)

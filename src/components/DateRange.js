@@ -10,12 +10,30 @@ class DateRange extends Component {
     }
 
     handleDayClick = (e, day) => {
-        this.setState(DateUtils.addDayToRange(day, this.state))
+        this.setState(DateUtils.addDayToRange(day, this.state), () => {
+            this.props.onRangeChanged && this.props.onRangeChanged(this.state.from, this.state.to)
+        })
     }
+
+    static formatSelectedDates = ({from, to}) => {
+        let selectedDescription
+
+        if (!from && !to) 
+            selectedDescription = 'Not filtered'
+        else if (!to)
+            selectedDescription = `From ${from.toLocaleDateString()} -->`
+        else if (!from)
+            selectedDescription = `To --> ${to.toLocaleDateString()}`
+        else 
+            selectedDescription = `Between ${from.toLocaleDateString()} -- ${to.toLocaleDateString()}`
+
+        return selectedDescription
+    } 
 
     render() {
         const { from, to } = this.state;
-        const selectedRange = from && to && `${from.toDateString()} - ${to.toDateString()}`
+        const selectedRange = DateRange.formatSelectedDates(this.state)
+
         return (
             <div className="date-range">
                 <DayPicker
