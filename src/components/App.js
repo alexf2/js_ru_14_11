@@ -8,9 +8,6 @@ import 'react-select/dist/react-select.css'
 import { connect } from 'react-redux'
 import {applyArtDateFilter, applyArtTitleFilter} from '../AC/filters'
 
-
-
-
 class App extends Component {
     
     render() {
@@ -19,13 +16,15 @@ class App extends Component {
             value: article.id
         }))        
 
-        return (
+        const {dateFilter: {from, to}, titles} = this.props
+
+        return (             
             <div>
                 <Counter />
                 <Chart />
                 <DateRange onRangeChanged={this.handleRangeChanged} />
-                <ArticleList  from={this.props.from} to={this.props.to} titles={this.props.titles} />
-                <Select options = {options} value = {this.props.titles} onChange = {this.handleChange} multi = {true} />
+                <ArticleList  from={from} to={to} titles={titles} />
+                <Select options = {options} value = {titles} onChange = {this.handleChange} multi = {true} />
             </div>
         )
     }
@@ -39,5 +38,7 @@ class App extends Component {
 }
 
 export default connect(
-    state => ({articles: state.articles, titles: state.titles, from: state.from, to: state.to}), 
+    //props to state
+    state => ({articles: state.articles, titles: state.titles, dateFilter: state.dateFilter}),
+    //actions bindings 
     {applyArtDateFilter, applyArtTitleFilter})(App)

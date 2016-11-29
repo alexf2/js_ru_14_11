@@ -1,22 +1,11 @@
 import {APPLY_ARTDATE_FILTER, APPLY_ARTTITLE_FILTER} from '../constants'
 
-let dateFilterFromReducer = (filterState = null, action) => {
+let dateFilterReducer = (filterState = {}, action) => {
     const { type, payload } = action
 
     switch(type) {
-        case APPLY_ARTDATE_FILTER: 
-            return payload.from                
-    }
-
-    return filterState
-}
-
-let dateFilterToReducer = (filterState = null, action) => {
-    const { type, payload } = action
-
-    switch(type) {
-        case APPLY_ARTDATE_FILTER: 
-            return payload.to                
+        case APPLY_ARTDATE_FILTER:         
+            return {from: payload.from, to: payload.to}
     }
 
     return filterState
@@ -33,4 +22,4 @@ let titleFilterReducer = (filterState = [], action) => {
     return filterState
 }
 
-export {titleFilterReducer, dateFilterFromReducer, dateFilterToReducer}
+export {titleFilterReducer, dateFilterReducer}

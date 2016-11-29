@@ -40,11 +40,15 @@ class ArticleList extends Component {
 
         const {from, to, titles} = this.props
 
+        from && from.setHours(0,0,0,0)
+        to && to.setHours(0,0,0,0)
+
         return articles.filter( (art) => {
             if (titles && titles.length > 0 && !titles.find((item) => item.value === art.id)) 
                 return false                        
 
-            const dt = Date.parse(art.date)             
+            const dt = new Date(art.date)
+            dt.setHours(0,0,0,0)             
 
             if (from && !to) 
                 return dt >= from
