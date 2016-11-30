@@ -33,7 +33,7 @@ class ArticleList extends Component {
     getContainerRef = ref => {
         this.containerRef = ref
     }
-
+    //я б поместил эту логику в connect + нет смысла передавать значения фильтров сверху, если тут ты всеравно используешь connect
     filterArt = articles => {
         if (!articles)
             return articles;
