@@ -1,5 +1,6 @@
 import {APPLY_ARTDATE_FILTER, APPLY_ARTTITLE_FILTER} from '../constants'
 
+//я бы делал одним редюсером, нет смысла их сильно дробить
 let dateFilterReducer = (filterState = {}, action) => {
     const { type, payload } = action
 
