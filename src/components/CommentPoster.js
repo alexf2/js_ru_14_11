@@ -7,9 +7,11 @@ class CommentPoster extends Component {
     changeHandler = (ev) => {        
         let val = ev.target.value
         //c id очень плохая идея. их у тебя может быть много в приложении
-        if (ev.target.id === 'Name')
+        //Ok: переделал на name
+        
+        if (ev.target.name === 'Name')
             this.setState(() => ({name: val}))
-        else
+        else if (ev.target.name === 'Comment')
             this.setState(() => ({comment: val}))        
     }
 
