@@ -9,12 +9,12 @@ export function applyArtDateFilter(from, to) {
     }
 }
 
-export function applyArtTitleFilter(titles) {
+export function applyArtTitleFilter(titleIds) {
     //лучше ids
     return {
         type: APPLY_ARTTITLE_FILTER,
         payload: {
-            titles
+            titleIds
         }
     }
 }

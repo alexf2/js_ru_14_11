@@ -16,21 +16,21 @@ class App extends Component {
             value: article.id
         }))        
 
-        const {dateFilter: {from, to}, titles} = this.props
+        const {filters: {titleIds, from, to}} = this.props
 
         return (             
             <div>
                 <Counter />
                 <Chart />
                 <DateRange onRangeChanged={this.handleRangeChanged} />
-                <ArticleList  from={from} to={to} titles={titles} />
-                <Select options = {options} value = {titles} onChange = {this.handleChange} multi = {true} />
+                <ArticleList />
+                <Select options = {options} value = {titleIds} onChange = {this.handleChange} multi = {true} />
             </div>
         )
     }
 
     handleChange = selected => {        
-        this.props.applyArtTitleFilter(selected)
+        this.props.applyArtTitleFilter( (selected || []).map((item) => item.value) )
     }
     handleRangeChanged = (from, to) => {        
         this.props.applyArtDateFilter(from, to)
@@ -39,6 +39,6 @@ class App extends Component {
 
 export default connect(
     //props to state
-    state => ({articles: state.articles, titles: state.titles, dateFilter: state.dateFilter}),
+    state => ({articles: state.articles, filters: {titleIds: state.filters.titleIds, from: state.filters.from, to: state.filters.to} }),
     //actions bindings 
     {applyArtDateFilter, applyArtTitleFilter})(App)

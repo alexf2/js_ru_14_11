@@ -32,42 +32,12 @@ class ArticleList extends Component {
 
     getContainerRef = ref => {
         this.containerRef = ref
-    }
-    //я б поместил эту логику в connect + нет смысла передавать значения фильтров сверху, если тут ты всеравно используешь connect
-    filterArt = articles => {
-        if (!articles)
-            return articles;
-
-        const {from, to, titles} = this.props
-
-        from && from.setHours(0,0,0,0)
-        to && to.setHours(0,0,0,0)
-
-        return articles.filter( (art) => {
-            if (titles && titles.length > 0 && !titles.find((item) => item.value === art.id)) 
-                return false                        
-
-            const dt = new Date(art.date)
-            dt.setHours(0,0,0,0)             
-
-            if (from && !to) 
-                return dt >= from
-            
-            else if (to && !from) 
-                return dt <= to
-            
-            else if (from) 
-                return dt >= from && dt <= to
-                        
-            return true
-        })
-    }
-
+    }    
 
     render() {
         const { articles, isOpen, toggleOpenItem } = this.props        
 
-        const articleItems = this.filterArt(articles).map(article => (
+        const articleItems = articles.map(article => (
             <li key = {article.id}>
                 <Article
                     article = {article}
@@ -85,6 +55,36 @@ class ArticleList extends Component {
     }
 }
 
+//я б поместил эту логику в connect + нет смысла передавать значения фильтров сверху, если тут ты всеравно используешь connect
+//Ok
+const filterArt = (articles, {titleIds, from, to}) => {
+    if (!articles)
+        return articles;
+
+    from && from.setHours(0,0,0,0)
+    to && to.setHours(0,0,0,0)
+
+    return articles.filter( (art) => {
+        if (titleIds && titleIds.length > 0 && titleIds.indexOf(art.id) === -1) 
+            return false                        
+
+        const dt = new Date(art.date)
+        dt.setHours(0,0,0,0)             
+
+        if (from && !to) 
+            return dt >= from
+        
+        else if (to && !from) 
+            return dt <= to
+        
+        else if (from) 
+            return dt >= from && dt <= to
+                    
+        return true
+    })
+}
+
 export default connect(state => ({
-    articles: state.articles
+    articles: filterArt(state.articles, state.filters)
 }))(accordion(ArticleList))
+
