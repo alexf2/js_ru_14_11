@@ -7,16 +7,17 @@ class DateFilter extends Component {
     constructor(props) {
         super(props)
         //тогда хотя бы назови их defaultDateFrom 
-        DateFilter.validateDate(props.dtFrom, '"dtFrom" if specified should be a valid Date')
-        DateFilter.validateDate(props.dtTo, 'dtTo if specified should be a valid Date')
+        //Ok
+        DateFilter.validateDate(props.dtFromDefault, '"dtFrom" if specified should be a valid Date')
+        DateFilter.validateDate(props.dtToDefault, 'dtTo if specified should be a valid Date')
 
-        if (!!props.dtFrom && !!props.dtTo && props.dtFrom > props.dtTo)
-            throw new Error(`Date from "${props.dtFrom}" should be less or equal to Date to "${props.dtTo}"`)
+        if (!!props.dtFromDefault && !!props.dtToDefault && props.dtFromDefault > props.dtToDefault)
+            throw new Error(`Date from "${props.dtFromDefault}" should be less or equal to Date to "${props.dtToDefault}"`)
 
-        if (!!props.dtFrom || !!props.dtTo)
+        if (!!props.dtFromDefault || !!props.dtToDefault)
             this.state = {                 
-                dtFrom: props.dtFrom,
-                dtTo: props.dtTo
+                dtFrom: props.dtFromDefault,
+                dtTo: props.dtToDefault
             }
         else {
             let date = new Date();                                
@@ -27,7 +28,7 @@ class DateFilter extends Component {
             }     
         }   
 
-        this.initialDate = this.state.dtFrom || this.state.dtTo
+        this.initialDate = this.state.dtFromDefault || this.state.dtToDefault
     }
 
     static validateDate = (dt, errorMsg) => {
