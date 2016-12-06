@@ -5,8 +5,7 @@ import type {CommentItem, NormArticleItem, ArticleItem} from '../dataTypes'
 import '../main.less'
 
 type Props = {
-    comment: CommentItem;
-    isFirst: boolean
+    comment: CommentItem;    
 }
 
 const Comment = (props:Props) => {
