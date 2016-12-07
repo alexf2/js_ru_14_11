@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { findDOMNode } from 'react-dom'
 import CommentList from './CommentList'
-import { deleteArticle } from '../AC/articles'
+import { deleteArticle, addComment } from '../AC/articles'
 import { connect } from 'react-redux'
 
 class Article extends Component {
@@ -31,6 +31,11 @@ class Article extends Component {
         )
     }
 
+    addCommenthandler = (user, comment) => {
+        const {addComment, article} = this.props
+        addComment(article.id, user, comment)
+    }
+
 
     getBody() {
         const { article, isOpen } = this.props
@@ -38,7 +43,7 @@ class Article extends Component {
         return (
             <div>
                 <p>{article.text}</p>
-                <CommentList commentIds = {article.comments} ref = "comments" />
+                <CommentList commentIds = {article.comments} ref = "comments" addCommenthandler = {this.addCommenthandler} />
             </div>
         )
     }
@@ -62,5 +67,6 @@ Article.propTypes = {
 
 
 export default connect(null, {
-    deleteArticle
+    deleteArticle,
+    addComment
 })(Article)

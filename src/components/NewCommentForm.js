@@ -1,5 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 
+const isEmpty = str => {
+    return !str || str.length === 0
+} 
+
 class NewCommentForm extends Component {
     state = {
         text: '',
@@ -16,18 +20,27 @@ class NewCommentForm extends Component {
     handleSubmit = ev => {
         ev.preventDefault()
         console.log('---', 'adding comment')
-        this.setState({
-            user: '',
-            text: ''
-        })
+
+        const {user, text} = this.state
+        
+        this.setState({noUserError: isEmpty(user)})
+        this.setState({noCommentError: isEmpty(text)})        
+
+        if (this.props.submitHandler && !isEmpty(user) && !isEmpty(text))
+            this.props.submitHandler(this.state.user, this.state.text)
     }
 
     render() {
+        const {noUserError, noCommentError} = this.state
+        const errStyle = {color: 'red'}
+
         return (
             <form onSubmit = {this.handleSubmit}>
                 comment: <input type="text" value={this.state.text} onChange = {this.handleChange('text')}/>
                 user: <input type="text" value={this.state.user} onChange = {this.handleChange('user')}/>
                 <input type = "submit"/>
+                {noCommentError && <div style={errStyle}>Specify a comment</div>}
+                {noUserError && <div style={errStyle}>Specify a user name</div>}
             </form>
         )
     }

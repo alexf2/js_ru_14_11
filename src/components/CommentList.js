@@ -44,9 +44,17 @@ class CommentList extends Component {
         return <a href="#" onClick = {toggleOpen}>{isOpen ? 'hide' : 'show'} comments</a>
     }
 
+    submitHandler = (...args) => {
+        const {isOpen, toggleOpen} = this.props
+
+        this.props.addCommenthandler(...args)
+        if (!isOpen)
+            toggleOpen()
+    }
+    
     getBody() {
         const { comments, isOpen } = this.props
-        const commentForm = <NewCommentForm />
+        const commentForm = <NewCommentForm submitHandler = {this.submitHandler} />
         if (!isOpen || !comments.length) return <div>{commentForm}</div>
         const commentItems = comments.map(comment => <li key = {comment.id}><Comment comment = {comment} /></li>)
         return <div><ul>{commentItems}</ul>{commentForm}</div>
