@@ -9,13 +9,14 @@ export function deleteArticle( articleId) {
     }
 }
 
-export function addComment(articleId, user, comment) {
+export function addComment(articleId, user, comment, maxCommentId) {
     return {
         type: ADD_ARTICLE_COMMENT,
         payload: {
             articleId,
             user,
-            comment
-        }
+            comment            
+        },
+        generateId: {currentMaxId: maxCommentId, newId: null}
     }
 }

@@ -40,7 +40,8 @@ class CommentList extends Component {
 
     getButton() {
         const { comments, isOpen, toggleOpen } = this.props
-        if ( !comments.length) return <span>No comments yet</span>
+        debugger
+        if ( !comments.size) return <span>No comments yet</span>
         return <a href="#" onClick = {toggleOpen}>{isOpen ? 'hide' : 'show'} comments</a>
     }
 
@@ -54,8 +55,9 @@ class CommentList extends Component {
     
     getBody() {
         const { comments, isOpen } = this.props
+        debugger
         const commentForm = <NewCommentForm submitHandler = {this.submitHandler} />
-        if (!isOpen || !comments.length) return <div>{commentForm}</div>
+        if (!isOpen || !comments.size) return <div>{commentForm}</div>
         const commentItems = comments.map(comment => <li key = {comment.id}><Comment comment = {comment} /></li>)
         return <div><ul>{commentItems}</ul>{commentForm}</div>
     }

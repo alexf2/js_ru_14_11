@@ -14,11 +14,15 @@ const arcticleReducer = (articlesState = provisionArticles, action) => {
             return articlesState.delete(payload.articleId)
 
         case ADD_ARTICLE_COMMENT: {
-            let art = articlesState.get(payload.articleId)
-            let lst = art.get('comments').push(payload.commentId)
+            /*let art = articlesState.get(payload.articleId)
+            let lst = art.get('comments').push(payload.generateId.newId)
             art = art.set('comments', lst)
 
-            return articlesState.set(payload.articleId, art)
+            return articlesState.set(payload.articleId, art)*/
+
+            debugger
+
+            return articlesState.updateIn([payload.articleId, 'comments'], comments => comments.push(action.generateId.newId))
         }
     }
 

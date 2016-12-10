@@ -11,7 +11,7 @@ class NewCommentForm extends Component {
     }
 
     handleChange = field => ev => {
-        if (ev.target.value.length > 5) return
+        //if (ev.target.value.length > 5) return
         this.setState({
             [field]: ev.target.value
         })
@@ -28,6 +28,8 @@ class NewCommentForm extends Component {
 
         if (this.props.submitHandler && !isEmpty(user) && !isEmpty(text))
             this.props.submitHandler(this.state.user, this.state.text)
+
+        this.setState({text: '', user: ''})
     }
 
     render() {

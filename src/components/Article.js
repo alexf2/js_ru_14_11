@@ -24,7 +24,7 @@ class Article extends Component {
         const { article, toggleOpen } = this.props
         return (
             <section>
-                <h3 onClick = {toggleOpen}>{article.title}</h3>
+                <h3 onClick = {toggleOpen}>{article.get('title')}</h3>
                 <a href = "#" onClick = {this.handleDeleteArticle}>delete me</a>
                 {this.getBody()}
             </section>
@@ -33,17 +33,21 @@ class Article extends Component {
 
     addCommenthandler = (user, comment) => {
         const {addComment, article} = this.props
-        addComment(article.id, user, comment)
-    }
+        let comments = article.get('comments')
 
+        let maxId = comments && comments.size > 0 ? 
+            comments.reduce( (prev, current) => (prev > current ? prev:current)):0
+
+        addComment(article.get('id'), user, comment, maxId)
+    }
 
     getBody() {
         const { article, isOpen } = this.props
         if (!isOpen) return null
         return (
             <div>
-                <p>{article.text}</p>
-                <CommentList commentIds = {article.comments} ref = "comments" addCommenthandler = {this.addCommenthandler} />
+                <p>{article.get('text')}</p>
+                <CommentList commentIds = {article.get('comments')} ref = "comments" addCommenthandler = {this.addCommenthandler} />
             </div>
         )
     }
@@ -51,7 +55,7 @@ class Article extends Component {
     handleDeleteArticle = ev => {
         ev.preventDefault()
         const { deleteArticle, article } = this.props
-        deleteArticle(article.id)
+        deleteArticle(article.get('id'))
     }
 }
 

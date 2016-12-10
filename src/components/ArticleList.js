@@ -16,6 +16,7 @@ class ArticleList extends Component {
     }
 
     componentDidMount() {
+        
         console.log('---', 'mounted', this.containerRef)
         console.log('---', this.refs)
     }
@@ -38,11 +39,11 @@ class ArticleList extends Component {
         const { articles, isOpen, toggleOpenItem } = this.props
 
         const articleItems = articles.map(article => (
-            <li key = {article.id}>
+            <li key = {article.get('id')}>
                 <Article
                     article = {article}
-                    isOpen = {isOpen(article.id)}
-                    toggleOpen = {toggleOpenItem(article.id)}
+                    isOpen = {isOpen(article.get('id'))}
+                    toggleOpen = {toggleOpenItem(article.get('id'))}
                 />
             </li>
         ))
@@ -66,6 +67,7 @@ export default connect(state => {
             (!from || !to || (published > from && published < to))
     })
     return {
-        articles: filteredArticles.map( (art) => (art.toJS()) ).toArray()
+        //articles: filteredArticles.map( (art) => (art.toJS()) ).toArray()
+        articles: filteredArticles.toArray()
     }
 })(accordion(ArticleList))
