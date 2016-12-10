@@ -18,9 +18,7 @@ const arcticleReducer = (articlesState = provisionArticles, action) => {
             let lst = art.get('comments').push(payload.generateId.newId)
             art = art.set('comments', lst)
 
-            return articlesState.set(payload.articleId, art)*/
-
-            debugger
+            return articlesState.set(payload.articleId, art)*/            
 
             return articlesState.updateIn([payload.articleId, 'comments'], comments => comments.push(action.generateId.newId))
         }

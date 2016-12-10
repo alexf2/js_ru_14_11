@@ -12,7 +12,7 @@ export default (comments = defaultComments, action) => {
 
     switch (type) {
         case ADD_ARTICLE_COMMENT:
-        debugger
+        
             return comments.set(action.generateId.newId, {id: action.generateId.newId, user: payload.user, text: payload.comment}) 
     }
 
