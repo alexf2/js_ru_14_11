@@ -5,11 +5,14 @@ export function deleteArticle(articleId) {
     return {
         type: DELETE_ARTICLE,
         payload: {
-            articleId
-        }
+            articleId            
+        },
+        verb: 'delete',
+        callAPIForward: `/api/article/${articleId}`
     }
 }
 
+//Using custom api.js middleware
 export function loadAllArticles() {
     return {
         type: LOAD_ALL_ARTICLES,
@@ -17,6 +20,7 @@ export function loadAllArticles() {
     }
 }
 
+//Using redux-thunk middleware
 export function loadArticle(id) {
     return (dispatch) => {
         dispatch({

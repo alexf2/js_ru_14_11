@@ -1,11 +1,22 @@
-import { ADD_COMMENT } from '../constants'
+import { ADD_ARTICLE_COMMENT, LOAD_ARTICLE_COMMENTS } from '../constants'
 
-export function addComment(comment, articleId) {
+
+//Using custom api.js middleware
+export function loadArticleComments(articleId) {
     return {
-        type: ADD_COMMENT,
+        type: LOAD_ARTICLE_COMMENTS,
+        callAPI: `/api/comment?article=${articleId}`
+    }
+}
+
+export function addArticleComment(comment, articleId) {
+    return {
+        type: ADD_ARTICLE_COMMENT,
         payload: {
-            articleId, comment
+            articleId, 
+            comment            
         },
-        generateId: true
+        verb: 'post',
+        callAPI: `/api/article/${articleId}/comment`
     }
 }

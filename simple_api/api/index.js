@@ -15,12 +15,24 @@ router.get('/article', function (req, res, next) {
 });
 
 router.get('/article/:id', function (req, res, next) {
-    var article = mocks.articles.filter(function (article) {
+    var article = mocks.articles.find(function (article) {
         return article.id == req.params.id
-    })[0];
+    });
     if (article) return res.json(article);
 
     res.status(404).json({error: "not found"});
+});
+
+router.delete('/article/:id', function (req, res, next) {
+    let len = mocks.articles.length
+    mocks.articles = mocks.articles.filter(function (article) {
+        return article.id !== req.params.id
+    });    
+
+    if (len === mocks.articles.length)
+        res.status(404).json({error: "not found"})
+    else
+        res.status(200)
 });
 
 router.post('/article', function (req, res, next) {
@@ -31,7 +43,8 @@ router.post('/article', function (req, res, next) {
         user: body.user,
         date: new Date()
     };
-    mocks.articles.push(article);
+    mocks.articles.push(article)
+    res.setHeader('Location', `/article/${article.id}`)
     res.json(article)
 });
 
@@ -56,16 +69,37 @@ router.get('/comment', function (req, res, next) {
     })
 });
 
-router.post('/comment', function (req, res, next) {
+router.get('/comment/:id', function (req, res, next) {
+    let comm = mocks.comments.find(function (comment) {
+        return comment.id == req.params.id
+    });
+    if (comm) return res.json(comm);
+
+    res.status(404).json({error: "not found"});   
+});
+
+router.post('/article/:id/comment', function (req, res, next) {
+
     var comment = {
         id : Date.now().toString(),
-        text : req.body.text,
+        text : req.body.comment.text,
         date: new Date(),
-        user: req.body.user,
-        article : req.body.article
+        user: req.body.comment.user
     };
-    mocks.comments.push(comment);
-    res.json(comment)
+    mocks.comments.push(comment)
+    let art = mocks.articles.find( (art) => art.id === req.params.id )
+    if (art) {
+        if (!art.comments)
+            art.comments = [comment.id]
+        else
+            art.comments.push(comment.id)
+    }
+    else {
+      res.status(404).json({error: "parent article not found: " + req.params.id})
+      return
+    }
+    res.setHeader('Location', `/comment/${comment.id}`)
+    res.json({comment, articleId: req.params.id})
 });
 
 router.post('/report', function (req, res) {

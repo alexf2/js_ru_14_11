@@ -1,4 +1,4 @@
-import { DELETE_ARTICLE, LOAD_ALL_ARTICLES, ADD_COMMENT, LOAD_ARTICLE, SUCCESS, FAIL, START } from '../constants'
+import { DELETE_ARTICLE, LOAD_ALL_ARTICLES, ADD_ARTICLE_COMMENT, LOAD_ARTICLE, SUCCESS, FAIL, START } from '../constants'
 import { arrayToMap, ReducerState } from '../utils'
 import { Record, Map } from 'immutable'
 
@@ -22,15 +22,14 @@ export default (articlesState = defaultState, action) => {
     const { type, payload, generatedId, response } = action
 
     switch (type) {
-        case DELETE_ARTICLE:
-            return articlesState.deleteIn(['entities', payload.articleId])
-
-        case ADD_COMMENT:
-            return articlesState.updateIn(['entities', payload.articleId, 'comments'],
-                comments => comments.concat(generatedId))
+        case DELETE_ARTICLE:        
+            return articlesState.deleteIn(['entities', payload.articleId])        
 
         case LOAD_ALL_ARTICLES + START:
             return articlesState.set('loading', true)
+
+        case LOAD_ALL_ARTICLES + FAIL:
+            return articlesState.set('loading', false)
 
         case LOAD_ALL_ARTICLES + SUCCESS:
             return articlesState
@@ -42,6 +41,9 @@ export default (articlesState = defaultState, action) => {
 
         case LOAD_ARTICLE + SUCCESS:
             return articlesState.setIn(['entities', payload.id], new ArticleModel(payload.article))
+
+        case ADD_ARTICLE_COMMENT + SUCCESS:
+            return articlesState.updateIn(['entities', payload.articleId, 'comments'],  cmd => cmd.concat(response.comment.id))
     }
 
     return articlesState
