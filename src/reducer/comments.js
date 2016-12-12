@@ -19,6 +19,7 @@ export default (comments = defaultState, action) => {
     const { type, payload, response, error, generatedId } = action
 
     switch (type) {
+          //здесь не достаточно повесить loading на весь comments, ведь ты для конкрентной статьи загружаешь
         case LOAD_ARTICLE_COMMENTS + START:
             return comments.set('loading', true)
 
