@@ -26,6 +26,7 @@ class CommentList extends Component {
     }
 
     componentWillUpdate (nextProps, nextState) {
+        //при такой логике лучше сделать comments.length <= article.comments.length, вдруг они гдето еще могут появиться
         if (nextProps.isOpen && !this.props.isOpen && nextProps.comments.length === 0 && (nextProps.article.comments || []).length > 0)  
             this.props.loadArticleComments(this.props.article.id)
 
