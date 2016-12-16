@@ -10,39 +10,23 @@ const CommentModel = Record({
     date: null    
 })
 
-const defaultState = new ReducerState({
-    entities: arrayToMap([], CommentModel),
-    loading: false
-})
+const defaultState = arrayToMap([], CommentModel)
 
 export default (comments = defaultState, action) => {
     const { type, payload, response, error, generatedId } = action
 
     switch (type) {
-          //здесь не достаточно повесить loading на весь comments, ведь ты для конкрентной статьи загружаешь
-        case LOAD_ARTICLE_COMMENTS + START:
-            return comments.set('loading', true)
-
-        case LOAD_ARTICLE_COMMENTS + FAIL:
-            return comments.set('loading', false)
-
         case LOAD_ARTICLE_COMMENTS + SUCCESS:
-            return comments
-                .set('loading', false)
-                .update('entities', ent => ent.merge(arrayToMap(response, CommentModel)))                
+            return comments.merge(arrayToMap(response, CommentModel))
 
         case ADD_ARTICLE_COMMENT + START:
-            //return comments.set('loading', true)
             return comments
             
-        case ADD_ARTICLE_COMMENT + FAIL:
-            //return comments.set('loading', false)
+        case ADD_ARTICLE_COMMENT + FAIL:            
             return comments
 
         case ADD_ARTICLE_COMMENT + SUCCESS:        
-            return comments
-                .setIn(['entities', response.comment.id], new CommentModel(response.comment))
-                //.set('loading', false)
+            return comments.set(response.comment.id, new CommentModel(response.comment))                
     }
 
     return comments

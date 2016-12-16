@@ -23,13 +23,12 @@ class CommentList extends Component {
 
     componentWillReceiveProps() {
         //console.log('---', 'CL receiving props')
+        //console.log('List: componentWillReceiveProps')
     }
 
     componentWillUpdate (nextProps, nextState) {
-        //при такой логике лучше сделать comments.length <= article.comments.length, вдруг они гдето еще могут появиться
-        if (nextProps.isOpen && !this.props.isOpen && nextProps.comments.length === 0 && (nextProps.article.comments || []).length > 0)  
-            this.props.loadArticleComments(this.props.article.id)
-
+        if (nextProps.isOpen && !this.props.isOpen && nextProps.article.commentsState === 0)
+            nextProps.loadArticleComments(nextProps.article.id)
     }
 
     componentDidMount() {        
@@ -48,27 +47,31 @@ class CommentList extends Component {
         const { article, isOpen, toggleOpen } = this.props
         if (article.comments.length === 0) 
             return <span>No comments yet</span>
-        return <a href="#" onClick = {toggleOpen}>{isOpen ? 'hide' : 'show'} comments</a>
+        return <a href="#" onClick = {toggleOpen}>{isOpen ? 'hide' : 'show'} comments ({article.comments.length})</a>
+    }
+
+    addCommentHandler = (...rest) => {
+        this.props.addArticleComment(...rest)
+        if (!this.props.isOpen)
+            this.props.toggleOpen()
     }
 
     getBody() {
-        const { article, comments, isOpen, addComment, loading } = this.props
-        const commentForm = <NewCommentForm articleId = {article.id} addComment = {this.props.addArticleComment} />
+        const { article, comments, isOpen, addComment, article: {commentsState} } = this.props
+        const commentForm = <NewCommentForm articleId = {article.id} addComment = {this.addCommentHandler} />
 
-        if (loading) 
+        if (isOpen && commentsState < 2)
             return <Loader/>
 
-        if (!isOpen || !comments.length) 
-            return <div>{commentForm}</div>
+        const commentItems = comments.map(comment => <li key = {comment.id}><Comment comment = {comment} /></li>)
 
-        const commentItems = comments
-            .map(comment => <li key = {comment.id}><Comment comment = {comment} /></li>)
-
-        return <div><ul>{commentItems}</ul>{commentForm}</div>
+        return <div>
+            {isOpen && <ul>{commentItems}</ul>}
+            {commentForm}
+        </div>
     }
 }
 
 export default connect((state, props) => ({
-    comments: props.article.comments.map(id => state.comments.entities.get(id)).filter(comment => !!comment),
-    loading: state.comments.loading
+    comments: props.article.comments.map(id => state.comments.get(id)).filter(comment => !!comment)    
 }), { loadArticleComments, addArticleComment })(toggleOpen(CommentList))

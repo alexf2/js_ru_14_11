@@ -5,6 +5,7 @@ import { ADD_ARTICLE_COMMENT, LOAD_ARTICLE_COMMENTS } from '../constants'
 export function loadArticleComments(articleId) {
     return {
         type: LOAD_ARTICLE_COMMENTS,
+        payload: {articleId},
         callAPI: `/api/comment?article=${articleId}`
     }
 }

@@ -5,7 +5,7 @@ import App from './App'
 class Root extends Component {
     static propTypes = {
 
-    };
+    };    
 
     render() {
         return (
