@@ -16,5 +16,5 @@ export default store => next => action => {
             .fail(error => {
                 next({...rest, error, type: type + FAIL})
             })
-    }, 1000)
+    }, 700)
 }

@@ -11,7 +11,7 @@ class Root extends Component {
     };
 
     render() {
-        const commentsLink = `/comments/${store.getState().commentsPaginator.pageNumber}`
+        //const commentsLink = `/comments/${store.getState().commentsPaginator.pageNumber}`
 
         return (
             <Provider store={store}>
@@ -20,7 +20,7 @@ class Root extends Component {
                         <MenuItem link = "/articles" name="Articles index"/>
                         <MenuItem link = "/filters" name="Filters"/>
                         <MenuItem link = "/counter" name="Counter"/>
-                        <MenuItem link = {commentsLink} name="Paged Comments"/>
+                        <MenuItem link = "/comments" name="Paged Comments"/>
                     </Menu>
                     {this.props.children}
                 </div>

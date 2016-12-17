@@ -1,45 +1,53 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 
-import { loadCommentsPage } from '../AC/commentsPaginator'
-import Loader from '../components/Loader'
-import CommentList from '../components/SimpleCommentList'
+import { navigateToCommentsPage } from '../AC/commentsPaginator'
+import PageLinks from '../components/PageLinks'
 
 class CommentsPaginator extends Component {
-
-    static defaultProps = {
-        comments: [],
-        pageNumber: 1,
+    
+    static defaultProps = {        
         pageSize: 5,
-        totalPages: -1,
-        loadStatus: 0 /* 0 - not loaded, 1 - loading, 2 - loaded */
+        totalPages: -1        
     }    
 
-    componentDidMount () {
-        loadCommentsPage(this.props.pageNumber)
+    componentDidMount () {        
+        this.props.navigateToCommentsPage(this.props.params.page || 1, this.props.pageSize)
     }
 
     componentWillReceiveProps (nextProps) {
-        if (this.props.loadStatus !== 1 && nextProps.pageNumber !== this.props.pageNumber) 
-            loadCommentsPage(nextProps.pageNumber)
+        const nextPage = nextProps.params.page || 1
+
+        if (this.props.loadStatus !== 1 && nextPage !== (this.props.params.page || 1))
+            this.props.navigateToCommentsPage(nextPage, nextProps.pageSize)
     }
 
-    render () {
-        const {comments, loadStatus} = this.props
+    render() {       
+        const {totalPages, pageNumber} = this.props        
 
-        if (loadStatus === 0)
-            return <div>Comments are not loaded</div>
-
-        if (loadStatus === 1)
-            return <Loader />
+        const hdrStyle = {textAlign: 'center'}                        
 
         return (
-            <CommentList comments={comments} />
+            <div>
+                <h2 style={hdrStyle}>Page {pageNumber} of {totalPages}</h2>
+                {this.props.children}
+                <div style={hdrStyle}><PageLinks totalPages={totalPages} page={pageNumber} /></div>
+            </div>            
         )
     }
 }
 
+function mapStateToProps  (state, props)  {
 
-export default connect((state, props) => ({
-    comments: (props.article.comments || []).map(id => state.comments.getIn(['entities', id]))
-}), { addComment, checkAndLoadComments })(toggleOpen(CommentsPaginator))
+    const {total, pageNumber} = state.commentsPaginator
+    const pagesCount = total / (props.pageSize || CommentsPaginator.defaultProps.pageSize)
+    
+    return {        
+        pageNumber,
+        totalPages: ~~pagesCount + (~~pagesCount === pagesCount ? 0:1)                
+    }
+}
+
+export default connect(mapStateToProps, { navigateToCommentsPage })(CommentsPaginator)
+
+
