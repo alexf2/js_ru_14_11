@@ -1,7 +1,7 @@
 import React from 'react'
 import PageLink from './PageLink'
 
-const PageLinks = (props) =>  {
+const PageLinks = (props) =>  {    
     return (<div>
         <b><PageLink type={0} title='First' {...props} />&nbsp;&nbsp;
         <PageLink type={1} title='Prev' {...props}/>&nbsp;&nbsp;{props.page} of {props.totalPages}&nbsp;&nbsp;

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-const PageLink = ({type, totalPages, page, title}) => {
+const PageLink = ({type, totalPages, page, title, base}) => {
     let enabled = true
-    let to = '/comments/'
+    let to = `${base}/`
     let face = ''    
 
     if (type <= 1 && (totalPages < 1 || page <= 1))

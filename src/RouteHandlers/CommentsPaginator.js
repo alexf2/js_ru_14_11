@@ -23,7 +23,7 @@ class CommentsPaginator extends Component {
     }
 
     render() {       
-        const {totalPages, pageNumber} = this.props        
+        const {totalPages, pageNumber, route: {path}} = this.props        
 
         const hdrStyle = {textAlign: 'center'}                        
 
@@ -31,7 +31,7 @@ class CommentsPaginator extends Component {
             <div>
                 <h2 style={hdrStyle}>Page {pageNumber} of {totalPages}</h2>
                 {this.props.children}
-                <div style={hdrStyle}><PageLinks totalPages={totalPages} page={pageNumber} /></div>
+                <div style={hdrStyle}><PageLinks base={path} totalPages={totalPages} page={pageNumber} /></div>
             </div>            
         )
     }
