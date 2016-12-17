@@ -23,9 +23,12 @@ export default (paginatorState = new PaginatorModel(), action) => {
         case NAVIGATE_TO_COMMENTS_PAGE + FAIL:
             return paginatorState.set('loadStatus', 0)
 
-        case NAVIGATE_TO_COMMENTS_PAGE + SUCCESS:
+        case NAVIGATE_TO_COMMENTS_PAGE + SUCCESS:            
             let res = paginatorState.set('loadStatus', 2)
                 .set('total', action.response.total)
+
+            if (paginatorState.total !== action.response.total)
+                res = res.updateIn(['pages'], p => p.clear())
 
             if (action.payload.pageNumber <= action.response.total)
                 res = res.set('pageNumber', action.payload.pageNumber)

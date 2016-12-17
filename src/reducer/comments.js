@@ -16,7 +16,7 @@ export default (comments = defaultState, action) => {
 
     switch (type) {
         case ADD_COMMENT:
-            return comments.set(generatedId, {...payload.comment, id: generatedId})
+            return comments.setIn(['entities', generatedId], {...payload.comment, id: generatedId})
 
         case LOAD_COMMENTS + SUCCESS:
             return comments.mergeIn(['entities'], arrayToMap(response, CommentModel))
