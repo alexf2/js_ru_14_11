@@ -68,5 +68,5 @@ export default connect((state, props) => ({
 }),
     { addComment, checkAndLoadComments },
     null,
-    {pure: false}
+    {pure: true} /* поставить false, если не будет апдейтится user */
 )(toggleOpen(CommentList))
