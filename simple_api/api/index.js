@@ -1,6 +1,8 @@
 var router = require('express').Router();
 var mocks = require('./mock');
 var assign = require('object-assign');
+var fs = require('fs');
+var path = require('path');
 
 router.get('/article', function (req, res, next) {
     var articles = mocks.articles.map(function (article) {
@@ -13,6 +15,19 @@ router.get('/article', function (req, res, next) {
 
     res.json(articles.slice(offset, limit + offset))
 });
+
+router.get('/static', function (req, res, next) {        
+    var fileName = path.join(__dirname, req.query.file)
+    if (fs.existsSync(fileName)) 
+        fs.readFile(fileName, 'utf8', (err, data) => {            
+            if (err) 
+                res.status(500).json({error: `File [${fileName}] access error: ${err.message}`})
+            else
+                res.json(data)
+    })
+    else
+        res.status(404).json({error: `File [${fileName}] not found`})
+})
 
 router.get('/article/:id', function (req, res, next) {
     var article = mocks.articles.filter(function (article) {

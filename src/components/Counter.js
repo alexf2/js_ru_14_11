@@ -11,6 +11,11 @@ class Counter extends Component {
         count: store.getState().count
     }
 
+
+    static contextTypes = {
+        localizer: PropTypes.object
+    }
+
     componentDidMount() {
         store.subscribe(this.onStoreChange)
     }
@@ -22,10 +27,12 @@ class Counter extends Component {
     }
 
     render() {
+        const {localizer: {localize}} = this.context
+
         return (
             <div>
                 <h2>{this.state.count}</h2>
-                <a href="#" onClick = {this.incrementCounter}>increment</a>
+                <a href="#" onClick = {this.incrementCounter}>{localize("increment")}</a>
             </div>
         )
     }

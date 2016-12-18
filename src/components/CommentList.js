@@ -23,7 +23,8 @@ class CommentList extends Component {
     static contextTypes = {
         router: PropTypes.object,
         store: PropTypes.object,
-        username: PropTypes.string
+        username: PropTypes.string,
+        localizer: PropTypes.object
     }
 
 
@@ -32,20 +33,24 @@ class CommentList extends Component {
     }
 
     render() {
+        const {localizer: {localize}} = this.context
+
         return (
             <div>
-                <h3>User: {this.context.username}</h3>
+                <h3>{localize("User:")} {this.context.username}</h3>
                 {this.getButton()}
                 {this.getBody()}
             </div>
         )
     }
-
+    
 
     getButton() {
         const { comments, isOpen, toggleOpen } = this.props
+        const {localizer: {localize}} = this.context
+        
         if ( !comments.length) return <span>No comments yet</span>
-        return <a href="#" onClick = {toggleOpen}>{isOpen ? 'hide' : 'show'} comments</a>
+        return <a href="#" onClick = {toggleOpen}>{isOpen ? localize('hide') : localize('show')} {localize("comments")}</a>
     }
 
     getBody() {

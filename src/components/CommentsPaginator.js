@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
 function CommentsPaginator(props) {
-    const { total } = props
+    const { total } = props    
+
     if (!total) return null
     const links = Array(...Array(Math.floor((total - 1)/5) + 1))
         .map((_, index) => (

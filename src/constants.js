@@ -13,3 +13,6 @@ export const LOAD_COMMENTS_FOR_PAGE = 'LOAD_COMMENTS_FOR_PAGE'
 export const SUCCESS = '_SUCCESS'
 export const FAIL = '_FAIL'
 export const START = '_START'
+
+export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE'
+export const LOAD_LANGUAGE = 'LOAD_LANGUAGE'

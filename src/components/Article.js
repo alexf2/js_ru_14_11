@@ -13,6 +13,10 @@ class Article extends Component {
     }
 */
 
+    static contextTypes = {
+        localizer: PropTypes.object
+    }
+
     componentWillUpdate() {
     }
 
@@ -30,11 +34,13 @@ class Article extends Component {
 
     render() {
         const { article, toggleOpen } = this.props
+        const {localizer: {localize}} = this.context
+
         if (!article) return null
         return (
             <section>
                 <h3 onClick = {toggleOpen}>{article.title}</h3>
-                <a href = "#" onClick = {this.handleDeleteArticle}>delete me</a>
+                <a href = "#" onClick = {this.handleDeleteArticle}>{localize("delete me")}</a>
                 {this.getBody()}
             </section>
         )
@@ -42,7 +48,8 @@ class Article extends Component {
 
 
     getBody() {
-        const { article, isOpen } = this.props
+        const { article, isOpen } = this.props        
+
         if (!isOpen) return null
         if (article.loading) return <Loader />
         return (

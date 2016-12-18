@@ -6,6 +6,10 @@ class NewCommentForm extends Component {
         user: ''
     }
 
+    static contextTypes = {
+        localizer: PropTypes.object
+    }
+
     handleChange = field => ev => {
         if (ev.target.value.length > 5) return
         this.setState({
@@ -23,11 +27,13 @@ class NewCommentForm extends Component {
     }
 
     render() {
+        const {localizer: {localize}} = this.context
+
         return (
             <form onSubmit = {this.handleSubmit}>
-                comment: <input type="text" value={this.state.text} onChange = {this.handleChange('text')}/>
-                user: <input type="text" value={this.state.user} onChange = {this.handleChange('user')}/>
-                <input type = "submit"/>
+                {localize("comment")}: <input type="text" value={this.state.text} onChange = {this.handleChange('text')}/>
+                {localize("user")}: <input type="text" value={this.state.user} onChange = {this.handleChange('user')}/>
+                <input type = "submit" value={localize("Submit")} />
             </form>
         )
     }

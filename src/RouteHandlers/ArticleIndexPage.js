@@ -5,10 +5,16 @@ class ArticleIndexPage extends Component {
 
     };
 
+    static contextTypes = {
+        localizer: PropTypes.object
+    }
+
     render() {
+        const {localizer: {localize}} = this.context
+
         return (
             <h1>
-                Choose your article
+                {localize("Choose your article")}
             </h1>
         )
     }
